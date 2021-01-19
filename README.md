@@ -1,4 +1,4 @@
-Your Repository
+Garrett's Repo
 ================
 
 ## Repository Organization
