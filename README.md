@@ -3,9 +3,10 @@ Garrett's Repo
 
 ## Repository Organization
 
-Each of your repositories will have a similar organization. There are
-certain limitations on the size and type of files that can be pushed to
-GitHub. There are also certain things that shouldn’t be accessible by
+There are certain limitations on the size and type of files that can be 
+pushed to GitHub. 
+
+There are also certain things that shouldn’t be accessible by
 the public (e.g., data we have a license to access). For these reasons,
 we have folders and files that are pushed to GitHub and those that are
 not.
