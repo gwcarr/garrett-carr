@@ -1,5 +1,5 @@
 ---
-title: "Week 2 Notes"
+title: "02Chapter - Statistical Rethinking Notes"
 output: github_document
 ---
 
@@ -103,3 +103,5 @@ plot(p_grid, posterior, type = "b",
      xlab = "probability of water", ylab = "posterior probability")
 mtext("20 points")
 ```
+
+

@@ -1,4 +1,4 @@
-Week 2 Notes
+02Chapter - Statistical Rethinking Notes
 ================
 
 ## 2.2: Building a Model
@@ -58,7 +58,7 @@ plot(p_grid, posterior, type = "b",
 mtext("20 points")
 ```
 
-![](Week-2_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](02-Statistical-Rethinking-Notes_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 Lets look at if we change the prior:
 
@@ -84,7 +84,7 @@ plot(p_grid, posterior, type = "b",
 mtext("20 points")
 ```
 
-![](Week-2_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](02-Statistical-Rethinking-Notes_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 Exponential
 
@@ -110,4 +110,4 @@ plot(p_grid, posterior, type = "b",
 mtext("20 points")
 ```
 
-![](Week-2_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](02-Statistical-Rethinking-Notes_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
