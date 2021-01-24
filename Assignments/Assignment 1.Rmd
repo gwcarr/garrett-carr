@@ -56,3 +56,18 @@ mtext("Disjoint Prior")
 ```
 
 A better prior appears to make a better answer to our question, it gives us a better graph. Similarly,  I think if we use appropriate priors, we help set up our inference from the model for success.
+
+## Question 3
+
+We will compute the 89th percentile, and the HPDI intervals, using the "RETHINKING" package.
+
+```{r}
+library(rethinking)
+
+PI(posterior, prob = 0.89)
+HPDI(posterior, prob = 0.89)
+```
+If we only consider the percentile with most common interval (PI in the package) we are at risk of ignoring the shape of our probability distribution, and instead of picking the most likely interval to contain the actual proportion of water to the rest of the small world, we pick a wider interval with equally weighted tails.
+
+
+The Highest Posterior Density Compatibility (HDPI in the package) will give us the narrowest interval that is most likely to contain our true proportion of water in the small world.  So not only is this answer more likely, but it more closely follows the data and the probability curve.
