@@ -116,4 +116,5 @@ mtext("20 points")
 
 Integral to the understanding of Bayes Theorem, is the following
 identity of conditional probability:
-$$P(A\|B) = \\frac{P(A\\cap B)}{P(B)}$$
+
+![P(A\|B) = \\frac{P(A\\cap B)}{P(B)}](https://latex.codecogs.com/png.latex?P%28A%7CB%29%20%3D%20%5Cfrac%7BP%28A%5Ccap%20B%29%7D%7BP%28B%29%7D "P(A|B) = \frac{P(A\cap B)}{P(B)}")
