@@ -111,3 +111,24 @@ mtext("20 points")
 ```
 
 ![](02-Statistical-Rethinking-Notes_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+### Additions From Probability Theory Class
+
+Integral to the understanding of Bayes Theorem, is the following
+identity of conditional probability:
+
+![P(A\|B) = \\frac{P(A\\cap B)}{P(B)}](https://latex.codecogs.com/png.latex?P%28A%7CB%29%20%3D%20%5Cfrac%7BP%28A%5Ccap%20B%29%7D%7BP%28B%29%7D "P(A|B) = \frac{P(A\cap B)}{P(B)}")
+
+Explaining in my own words, basically when we measure the probability of
+![A](https://latex.codecogs.com/png.latex?A "A") conditional on
+![B](https://latex.codecogs.com/png.latex?B "B"), basically we are
+saying that we are redefining the sample space as set
+![B](https://latex.codecogs.com/png.latex?B "B").
+
+In corollary to what we discussed in the seminar class, we consider the
+probability of both ![A](https://latex.codecogs.com/png.latex?A "A") and
+![B](https://latex.codecogs.com/png.latex?B "B") (where
+![A](https://latex.codecogs.com/png.latex?A "A") and
+![B](https://latex.codecogs.com/png.latex?B "B") intersect) and then we
+standardize according to the probability of
+![B](https://latex.codecogs.com/png.latex?B "B").
