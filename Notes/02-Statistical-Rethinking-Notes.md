@@ -111,3 +111,9 @@ mtext("20 points")
 ```
 
 ![](02-Statistical-Rethinking-Notes_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+### Additions From Probability Theory Class
+
+Integral to the understanding of Bayes Theorem, is the following
+identity of conditional probability:
+$$P(A\|B) = \\frac{P(A\\cap B)}{P(B)}$$

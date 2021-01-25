@@ -3,9 +3,6 @@ title: "02Chapter - Statistical Rethinking Notes"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## 2.2: Building a Model
 
@@ -26,13 +23,14 @@ ways/sum(ways)
 
 ### Globe Tossing
 
-Picking a prior is important, and the prior assumption can be flat.  Typically, this is used to mean that all possibilities are equally likely in the scenario.  
+Picking a prior is important, and the prior assumption can be flat. Typically, this is used to mean that all possibilities are equally likely in the scenario.
 
 Sometimes it might be better to pick a couple different priors and try them all.
 
 In the example of the water vs land on a globe, the distribution of probabilities is binomial, because there are only two possibilites; landing on water, or on land.
 
 We look at the grid approximation of the model as shown below:
+
 ```{r}
 # define grid
 p_grid <- seq(from = 0, to = 1, length.out = 20)
@@ -79,7 +77,6 @@ plot(p_grid, posterior, type = "b",
 mtext("20 points")
 ```
 
-
 Exponential
 
 ```{r}
@@ -104,4 +101,8 @@ plot(p_grid, posterior, type = "b",
 mtext("20 points")
 ```
 
+### Additions From Probability Theory Class
+
+Integral to the understanding of Bayes Theorem, is the following identity of conditional probability:
+$$P(A|B) = \frac{P(A\cap B)}{P(B)}$$
 
