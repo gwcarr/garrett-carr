@@ -25,6 +25,7 @@ $$
 
 $$
 Pr(\textnormal{positive} | \textnormal{vampire})Pr(\textnormal{vampire}) + Pr(\textnormal{positive} | \textnormal{mortal})(1 - Pr(\textnormal{vampire}))
+Pr(\textnormal{vampire} | \textnormal{positive}) = \frac{Pr(\textnormal{positive} | \textnormal{vampire}) Pr(\textnormal{vampire})}{Pr(\textnormal{positive})}
 $$
 We could look at this block, and it would be very confusing for most people.
 
