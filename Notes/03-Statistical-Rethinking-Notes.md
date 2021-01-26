@@ -18,10 +18,20 @@ that subset of people.
 Using the probability rules to define it as something similar, applying
 Baye’s Theorem:
 
-$$ Pr( \| ) = =
+![
+Pr(\\textnormal{vampire} \| \\textnormal{positive}) = \\frac{Pr(\\textnormal{positive} \| \\textnormal{vampire}) Pr(\\textnormal{vampire})}{Pr(\\textnormal{positive})} =
+](https://latex.codecogs.com/png.latex?%0APr%28%5Ctextnormal%7Bvampire%7D%20%7C%20%5Ctextnormal%7Bpositive%7D%29%20%3D%20%5Cfrac%7BPr%28%5Ctextnormal%7Bpositive%7D%20%7C%20%5Ctextnormal%7Bvampire%7D%29%20Pr%28%5Ctextnormal%7Bvampire%7D%29%7D%7BPr%28%5Ctextnormal%7Bpositive%7D%29%7D%20%3D%0A "
+Pr(\textnormal{vampire} | \textnormal{positive}) = \frac{Pr(\textnormal{positive} | \textnormal{vampire}) Pr(\textnormal{vampire})}{Pr(\textnormal{positive})} =
+")
 
-Pr( \| )Pr() + Pr( \| )(1 - Pr()) $$ We could look at this block, and it
-would be very confusing for most people.
+![
+Pr(\\textnormal{positive} \| \\textnormal{vampire})Pr(\\textnormal{vampire}) + Pr(\\textnormal{positive} \| \\textnormal{mortal})(1 - Pr(\\textnormal{vampire}))
+](https://latex.codecogs.com/png.latex?%0APr%28%5Ctextnormal%7Bpositive%7D%20%7C%20%5Ctextnormal%7Bvampire%7D%29Pr%28%5Ctextnormal%7Bvampire%7D%29%20%2B%20Pr%28%5Ctextnormal%7Bpositive%7D%20%7C%20%5Ctextnormal%7Bmortal%7D%29%281%20-%20Pr%28%5Ctextnormal%7Bvampire%7D%29%29%0A "
+Pr(\textnormal{positive} | \textnormal{vampire})Pr(\textnormal{vampire}) + Pr(\textnormal{positive} | \textnormal{mortal})(1 - Pr(\textnormal{vampire}))
+")
+
+We could look at this block, and it would be very confusing for most
+people.
 
 In essence, Bayesian Inference allows us to represent the world as it
 is, rather than an estimation of true values with random chance error
