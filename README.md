@@ -3,7 +3,7 @@ Garrett's Repo
 
 ## Repository Organization
 
-Each of your repositories will have a similar organization. There are
+Each repository will have a similar organization. There are
 certain limitations on the size and type of files that can be pushed to
 GitHub. There are also certain things that shouldn’t be accessible by
 the public (e.g., data we have a license to access). For these reasons,
@@ -12,19 +12,19 @@ not.
 
 ### Pushed to GitHub
 
-  - `/Assignments` Each assignment should be included as an R Markdown
+  - `/Assignments` Each assignment will be included as an R Markdown
     file (e.g., `Assignment-02.Rmd`) knit as a `github_document` to
     produce a Markdown file (e.g., `Assignment-02.md`).
-  - `/Notes` Keep your notes as you work through *Statistical
-    Rethinking* here. It is recommended to do so as an organized series
+  - `/Notes` Notes as I work through *Statistical
+    Rethinking* will be found here. It will be an organized series
     of R Markdown files (e.g., `01_The-Golem-of-Prague.Rmd`).
-  - `/Project` Keep everything related to the project here (see the
+  - `/Project` Everything related to the project will be found here (see the
     [project organization
     details](https://github.com/quant-seminar/repo-template/tree/main/Project)).
-  - `README` This page, with any other organization details to make it
-    easy to navigate your repository.
+  - `README` This page, which will include any other organization details to make it
+    easy to navigate this repository.
 
 ### Not Pushed to GitHub
 
-  - `/Private` PDFs that you want to keep track of reading locally and
-    other files you want to keep with your repository.
+  - `/Private` PDFs to keep track of reading locally and
+    other files to keep private in the repository.
