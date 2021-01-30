@@ -1,0 +1,6 @@
+---
+title: "04Chapter - Statistical Rethinking Notes"
+output: 
+  github_document:
+    pandoc_args: --webtex
+---
