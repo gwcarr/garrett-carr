@@ -127,7 +127,7 @@ Now we use sampling:
 sum(samples < 0.5) / 1e4
 ```
 
-    ## [1] 0.1702
+    ## [1] 0.1692
 
 This is basically performing integration under the curve. We can also
 ask how much posterior probability is in certain parameters:
@@ -136,7 +136,7 @@ ask how much posterior probability is in certain parameters:
 sum(samples > 0.5 & samples < 0.75) / 1e4
 ```
 
-    ## [1] 0.6076
+    ## [1] 0.6058
 
 ## Defining the Mass of the interval
 
@@ -147,7 +147,7 @@ quantile(samples, 0.8)
 ```
 
     ##       80% 
-    ## 0.7597598
+    ## 0.7607608
 
 Now if our data is skewed, we have to be careful we understand what this
 means. We generate a new posterior with a skew:
@@ -175,7 +175,7 @@ PI(samples, prob = 0.5)
 ```
 
     ##       25%       75% 
-    ## 0.7057057 0.9299299
+    ## 0.7087087 0.9319319
 
 Then we find the percentile interval with the highest density with 50%
 of the distribution:
@@ -185,7 +185,7 @@ HPDI(samples, prob = 0.5)
 ```
 
     ##      |0.5      0.5| 
-    ## 0.8388388 1.0000000
+    ## 0.8408408 1.0000000
 
 Remember this is more computationally intensive than using PI.
 
@@ -215,3 +215,43 @@ the posterior, and the corresponding parameter value.
 
 I note that the expected loss function may be different for each problem
 as well. We want to carefully consider what impact our model will have.
+
+We use point estimates as described below to understand which values may
+be the most likely max or min.
+
+``` r
+p_grid[which.max(posterior)]
+```
+
+    ## [1] 1
+
+``` r
+# provides the most likely max (MAP)
+```
+
+Or we approximate using the samples from the posterior:
+
+``` r
+chainmode(samples, adj = 0.01)
+```
+
+    ## [1] 0.9901629
+
+## Model Checking
+
+### Retrodictions
+
+We look at the software to make sure it’s producing results that make
+sense.
+
+### Calcuations
+
+simulated predicted observations:
+
+``` r
+# at a single point
+w <- rbinom(1e4, size = 9, prob = 0.6)
+
+# using parameter uncertainty
+w <- rbinom(1e4, size = 9, prob = samples)
+```

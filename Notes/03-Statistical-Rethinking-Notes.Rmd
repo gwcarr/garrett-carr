@@ -140,3 +140,31 @@ It's one estimate of loss titled *absolute loss*, the median value of the poster
 I note that the expected loss function may be different for each problem as well. 
 We want to carefully consider what impact our model will have.
 
+We use point estimates as described below to understand which values may be the most likely max or min.
+
+```{r}
+p_grid[which.max(posterior)]
+# provides the most likely max (MAP)
+```
+
+Or we approximate using the samples from the posterior:
+
+```{r}
+chainmode(samples, adj = 0.01)
+```
+
+## Model Checking
+
+### Retrodictions
+We look at the software to make sure it's producing results that make sense.
+
+### Calcuations
+simulated predicted observations:
+
+```{r}
+# at a single point
+w <- rbinom(1e4, size = 9, prob = 0.6)
+
+# using parameter uncertainty
+w <- rbinom(1e4, size = 9, prob = samples)
+```
