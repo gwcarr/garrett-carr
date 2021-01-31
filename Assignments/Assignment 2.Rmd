@@ -1,0 +1,154 @@
+---
+title: "03Chapter - Statistical Rethinking Notes"
+output: 
+  github_document:
+    pandoc_args: --webtex
+---
+
+## Question 1
+
+> The weights listed below were recorded in the !Kung census, but heights
+> were not recorded for these individuals. Provide predicted heights and 89%
+> compatibility intervals for each of these individuals. That is, fill in the table
+> below, using model-based predictions.
+
+So, we look at the data from the !Kung census, by loading the proper data:
+
+```{r setup}
+library(rethinking)
+library(tidyverse)
+data(Howell1)
+data <- as_tibble(Howell1)
+```
+
+Then we create the prior, filtering heights for ages 18 and over only.
+
+```{r}
+# filter out younger than 18
+
+data <- data %>% 
+  filter(age >= 18)
+```
+We consider the simple linear regression model used to predict the effect of height on weight:
+
+height = mu + beta1 *(weight - avg_weight)
+```{r}
+# Simulate data
+prior <- tibble(
+  mu = rnorm(n = 1000, mean = 178, sd = 20),
+  sigma = runif(n = 1000, min = 0, max = 50)
+) %>% 
+  # Here, we simulate the data distribution, based on what we decided our prior values to be
+  mutate(height = rnorm(n = 1000, mean = mu, sd = sigma))
+
+# Prior Predictive simulation:
+# number of lines specified here:
+N <- 100
+prior <- tibble(
+  n = 1:N,
+  beta0 = rnorm(n = N, mean = 178, sd = 20),
+  beta1 = rlnorm(n = N, meanlog = 0, sdlog = 1)
+) %>%
+  expand(nesting(n, beta0, beta1), weight = range(data$weight)) %>%
+  # Here, we simulate the predictive distribution, based on our model above
+  mutate(
+    height = beta0 + beta1 * (weight - mean(data$weight))
+  )
+# We take a look at our prior predictive distribution
+dens(prior$height)
+
+# We take a look at the prior predicitve distribution lines
+prior %>% 
+  ggplot(aes(x = weight, y = height, group = n)) +
+  geom_line(alpha = 0.10)
+
+avg_weight <- mean(data$weight)
+model <- quap(
+  alist(
+    height ~ dnorm(mu, sigma),                   
+    mu <- beta0 + beta1 * (weight - avg_weight), 
+    beta0 ~ dnorm(178, 20),                      
+    beta1 ~ dlnorm(0, 1),                        
+    sigma ~ dunif(0, 50)                         
+  ),
+  data = data
+)
+```
+
+We now have a model we can use to predict weights.  
+So, using the entire distribution to predict weights..
+
+```{r}
+new_indiv <- tibble(
+  person = c("person1", "person2", "person3", "person4"),
+  weight = c(45, 40, 65, 31)
+)
+# we simulate the possible predicted heights from each person
+heights_predicted <- sim(model, data = list(weight = new_indiv$weight)) %>% 
+  as_tibble() %>% 
+  rename(
+    "person1" = V1,
+    "person2" = V2,
+    "person3" = V3,
+    "person4" = V4
+  ) %>% 
+  summarise(
+    "p1mean" = mean(person1),
+    "p2mean" = mean(person2),
+    "p3mean" = mean(person3),
+    "p4mean" = mean(person4),
+    "p1prob" = PI(person1),
+    "p2prob" = PI(person2),
+    "p3prob" = PI(person3),
+    "p4prob" = PI(person4)
+  )
+
+heights_predicted
+```
+
+## Question 2
+
+> Model the relationship between height (cm) and the natural logarithm
+> of weight (log-kg): log(weight). Use the entire Howell1 data frame, all
+> 544 rows, adults and non-adults. Use any model type from Chapter 4 that
+> you think useful: an ordinary linear regression, a polynomial or a spline. I
+> recommend a plain linear regression, though. Plot the posterior predictions
+> against the raw data.
+
+We take a look at building the model using a similar approach as to above.
+
+```{r}
+# Prior Predictive simulation:
+# number of lines specified here:
+N <- 100
+prior <- tibble(
+  n = 1:N,
+  beta0 = rnorm(n = N, mean = 178, sd = 20),
+  beta1 = rlnorm(n = N, meanlog = 0, sdlog = 1)
+) %>%
+  expand(nesting(n, beta0, beta1), weight = range(data$weight)) %>%
+  # Here, we simulate the predictive distribution, based on our model above
+  mutate(
+    height = beta0 + beta1 * (weight - mean(data$weight))
+  )
+# We take a look at our prior predictive distribution
+dens(prior$height)
+
+# We take a look at the prior predicitve distribution lines
+prior %>% 
+  ggplot(aes(x = weight, y = height, group = n)) +
+  geom_line(alpha = 0.10)
+
+avg_weight <- mean(data$weight)
+model <- quap(
+  alist(
+    height ~ dnorm(mu, sigma),                   
+    mu <- beta0 + beta1 * (weight - avg_weight), 
+    beta0 ~ dnorm(178, 20),                      
+    beta1 ~ dlnorm(0, 1),                        
+    sigma ~ dunif(0, 50)                         
+  ),
+  data = data
+)
+```
+
