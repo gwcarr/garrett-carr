@@ -106,7 +106,7 @@ dens(prior$height)
 ![](Assignment-2_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
-# We take a look at the prior predicitve distribution lines
+# We take a look at the prior predictive distribution lines
 prior %>% 
   ggplot(aes(x = weight, y = height, group = n)) +
   geom_line(alpha = 0.10)
@@ -144,7 +144,7 @@ heights_predicted <- sim(model, data = list(weight = new_indiv$weight)) %>%
     "person2" = V2,
     "person3" = V3,
     "person4" = V4
-  ) %>% 
+  ) %>% ## FIXME Display table in a format that's easier to understand
   summarise(
     "p1mean" = mean(person1),
     "p2mean" = mean(person2),
@@ -169,8 +169,8 @@ heights_predicted
     ## # A tibble: 2 x 8
     ##   p1mean p2mean p3mean p4mean p1prob p2prob p3prob p4prob
     ##    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1   155.   150.   173.   142.   147.   142.   165.   134.
-    ## 2   155.   150.   173.   142.   163.   158.   182.   150.
+    ## 1   155.   150.   173.   142.   146.   142.   164.   134.
+    ## 2   155.   150.   173.   142.   162.   158.   181.   151.
 
 ## Question 2
 
@@ -186,43 +186,56 @@ above.
 
 ``` r
 # Prior Predictive simulation:
-# number of lines specified here:
-N <- 100
-prior <- tibble(
-  n = 1:N,
-  beta0 = rnorm(n = N, mean = 178, sd = 20),
-  beta1 = rlnorm(n = N, meanlog = 0, sdlog = 1)
-) %>%
-  expand(nesting(n, beta0, beta1), weight = range(data$weight)) %>%
-  # Here, we simulate the predictive distribution, based on our model above
-  mutate(
-    height = beta0 + beta1 * (weight - mean(data$weight))
+# Reload data to include under age 18 persons
+data(Howell1)
+data.log <- as_tibble(Howell1)
+
+data.log$weight <- log(data.log$weight)
+
+avg_weight <- mean(data.log$weight)
+
+## FIXME model isn't scaling logarthmically
+## Not sure how to do this one
+
+model2 <- quap( # Fits the model
+  data = data.log,
+  alist( # Model Definition
+    height ~ dnorm(mu, sigma),                   
+    mu <-  beta0 + exp(log_b) * (weight - avg_weight), 
+    beta0 ~ dnorm(178, 20),                      
+    log_b ~ dnorm(0, 1),                        
+    sigma ~ dunif(0, 50)                         
   )
-# We take a look at our prior predictive distribution
-dens(prior$height)
+)
+
+# Predict heights according to model on the log scale
+new_weights <- seq(range(data.log$weight))
+pred_heights <- sim(model2, data = list(weight = new_weights)) %>% 
+                    as_tibble() %>% 
+                    rename(
+                      "weight" = V1,
+                      "height" = V2
+                    )
+
+# Plotting
+hist(pred_heights$height)
 ```
 
 ![](Assignment-2_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
-# We take a look at the prior predicitve distribution lines
-prior %>% 
-  ggplot(aes(x = weight, y = height, group = n)) +
-  geom_line(alpha = 0.10)
+hist(data.log$height)
 ```
 
-![](Assignment-2_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
+![](Assignment-2_files/figure-gfm/unnamed-chunk-4-2.png)<!-- --> \#\#
+Question 3
 
-``` r
-avg_weight <- mean(data$weight)
-model <- quap(
-  alist(
-    height ~ dnorm(mu, sigma),                   
-    mu <- beta0 + beta1 * (weight - avg_weight), 
-    beta0 ~ dnorm(178, 20),                      
-    beta1 ~ dlnorm(0, 1),                        
-    sigma ~ dunif(0, 50)                         
-  ),
-  data = data
-)
-```
+> Plot the prior predictive distribution for the polynomial regression
+> model in Chapter 4. You can modify the the code that plots the linear
+> regression prior predictive distribution. 20 or 30 parabolas from the
+> prior should suffice to show where the prior &gt; probability resides.
+> Can you modify the prior distributions of α, β1, and β2 so that the
+> prior predictions stay within the biologically reasonable outcome
+> space? That is to say: Do not try to fit the data by hand. But do try
+> to keep the curves consistent with what you know about height and
+> weight, before seeing these exact data.
