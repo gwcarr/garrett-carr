@@ -132,3 +132,4 @@ probability of both ![A](https://latex.codecogs.com/png.latex?A "A") and
 ![B](https://latex.codecogs.com/png.latex?B "B") intersect) and then we
 standardize according to the probability of
 ![B](https://latex.codecogs.com/png.latex?B "B").
+
