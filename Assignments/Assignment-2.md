@@ -1,4 +1,4 @@
-03Chapter - Statistical Rethinking Notes
+Assignment 2
 ================
 
 ## Question 1
