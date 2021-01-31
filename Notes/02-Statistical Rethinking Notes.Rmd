@@ -105,6 +105,13 @@ mtext("20 points")
 
 ### Additions From Probability Theory Class
 
+Integral to the understanding of Bayes Theorem, is the following identity of conditional probability: $$P(A|B) = \frac{P(A\cap B)}{P(B)}$$
+
+Explaining in my own words, basically when we measure the probability of $A$ conditional on $B$, basically we are saying that we are redefining the sample space as set $B$.  
+
+In corollary to what we discussed in the seminar class, we consider the probability of both $A$ and $B$ (where $A$ and $B$ intersect) and then we standardize according to the probability of $B$.
+
 Integral to the understanding of Bayes Theorem, is the following identity of conditional probability:
 $$P(A|B) = \frac{P(A\cap B)}{P(B)}$$
+
 
