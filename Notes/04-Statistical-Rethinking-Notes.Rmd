@@ -4,3 +4,36 @@ output:
   github_document:
     pandoc_args: --webtex
 ---
+
+So, we look at the data from the !Kung census, by loading the proper data:
+
+```{r setup}
+library(rethinking)
+library(tidyverse)
+data(Howell1)
+data <- as_tibble(Howell1)
+```
+
+Then we create the prior, filtering heights for ages 18 and over only.
+
+```{r}
+# filter out younger than 18
+
+data <- d %>% 
+  filter(age >= 18)
+
+# mu ∼ Normal(178, 20)
+# sigma ∼ Uniform(0, 50) 
+# height_i ∼ Normal(mu, sigma)
+
+
+# Data Simulation:
+prior <- tibble(
+  mu = rnorm(n = 1000, mean = 178, sd = 20),
+  sigma = runif(n = 1000, min = 0, max = 50)
+) %>% 
+  # Here, we simulate the data distribution, based on what we decided our prior values to be
+  mutate(height = rnorm(n = 1000, mean = mu, sd = sigma))
+# We take a look at our prior predictive distribution
+dens(prior$height)
+```
