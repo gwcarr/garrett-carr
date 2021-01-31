@@ -1,5 +1,5 @@
 ---
-title: "03Chapter - Statistical Rethinking Notes"
+title: "Assignment 2"
 output: 
   github_document:
     pandoc_args: --webtex
