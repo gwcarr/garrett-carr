@@ -31,7 +31,7 @@ data <- data %>%
 ```
 We consider the simple linear regression model used to predict the effect of height on weight:
 
-height = mu + beta1 *(weight - avg_weight)
+height = beta0 + beta1 * (weight - avg_weight)
 ```{r}
 # Simulate data
 prior <- tibble(
@@ -132,8 +132,8 @@ height_pred
 > Model the relationship between height (cm) and the natural logarithm
 > of weight (log-kg): log(weight). Use the entire Howell1 data frame, all
 > 544 rows, adults and non-adults. Use any model type from Chapter 4 that
-> you think useful: an ordinary linear regression, a polynomial or a spline. I
-> recommend a plain linear regression, though. Plot the posterior predictions
+> you think useful: an ordinary linear regression, a polynomial or a spline. > I recommend a plain linear regression, though. 
+> Plot the posterior predictions
 > against the raw data.
 
 We take a look at building the model using a similar approach as to above.
@@ -141,32 +141,30 @@ We take a look at building the model using a similar approach as to above.
 ```{r}
 # Prior Predictive simulation:
 # Reload data to include under age 18 persons
-data(Howell1)
-data.log <- as_tibble(Howell1) %>% 
-  mutate(
-    weight = log(weight)
-  )
+data.log <- as_tibble(data(Howell1)) %>% 
+  mutate("log_weight" = log(weight))
 
-avg_weight <- mean(data.log$weight)
+# Lets plot the relationship and take a look
+ggplot(data = data.log, aes(x = log_weight, y = height)) +
+  geom_jitter()
 
-## FIXME model isn't scaling logarthmically
-## Not sure how to do this one
+avg_weight <- mean(data.log$log_weight)
 
-model2 <- quap( # Fits the model
+model2.fitted <- quap( # Fits the model
   data = data.log,
   alist( # Model Definition
     height ~ dnorm(mu, sigma),                   
-    mu <-  beta0 + log_b * (weight - avg_weight),
-    # Prior defined below:
+    mu <- beta0 + beta1 * (log_weight - avg_weight),
+    # Priors defined below:
     beta0 ~ dnorm(178, 20),                      
-    log_b ~ dlnorm(meanlog = 0, sdlog = 1),                        
+    beta1 ~ dlnorm(0, 1),
     sigma ~ dunif(0, 50)                         
   )
 )
 
 # Predict heights according to model on the log scale
 new_weights <- seq(range(data.log$weight))
-pred_heights <- sim(model2, data = list(weight = new_weights)) %>% 
+pred_heights <- sim(model2.fitted, data = list(weight = new_weights)) %>% 
                     as_tibble() %>% 
                     rename(
                       "weight" = V1,
@@ -190,4 +188,34 @@ hist(data.log$height)
   >That is to say: Do not try to fit the data by hand. 
   >But do try to keep the curves consistent with what you know about height and 
   >weight, before seeing these exact data.
+
+
+The following is copied from Marc's solution:
+
+```{r}
+# Keep all the data, standardize weight, and add squared standardized weight.
+data <- as_tibble(Howell1) %>% 
+  mutate(
+    weight_s = (weight - mean(weight)) / sd(weight),
+    weight_s_sq = weight_s^2
+  )
+
+# Fit the model with quadratic approximation.
+fit <- quap(
+  alist(
+    height ~ dnorm(mu, sigma),                            # height_i ∼ Normal(mu_i, sigma)
+    mu <- beta0 + beta1 * weight_s + beta2 * weight_s_sq, # mu_i = beta0 + beta1 * x_i + beta2 * x_i^2
+    beta0 ~ dnorm(178, 20),                               # beta0 ∼ Normal(178, 20)
+    beta1 ~ dlnorm(0, 1),                                 # beta1 ~ Log-Normal(0, 1)
+    beta2 ~ dnorm(0, 1),                                  # beta2 ~ Normal(0, 1)
+    sigma ~ dunif(0, 50)                                  # sigma ∼ Uniform(0, 50)
+  ),
+  data = data
+)
+
+# Extract the prior (first set.seed).
+set.seed(45)
+prior <- extract.prior(fit)
+precis(prior)
+```
 
