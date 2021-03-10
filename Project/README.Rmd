@@ -1,21 +1,32 @@
 ---
-title: "Project"
+title: "Compensation "
 output: github_document
 ---
 
-## Project Organization
+## Project Overview
 
-There are certain limitations on the size and type of files that can be pushed to GitHub. There are also certain things that shouldn't be accessible by the public (e.g., data we have a license to access). For these reasons, we have folders and files that are pushed to GitHub and those that are not.
+The question I have revolves around worker compensation. 
+Given a variety of factors such as
+experience, 
+age,
+industry,
+gender,
+locale,
+part-time status,
+and worker preferences,
+how much should an employee be paid?
+If an employee is more productive and beneficial to a given firm,
+is it true that they are compensated more?
 
-### Pushed to GitHub
+In this brief project, I will attempt to explore the differences between compensation
+for employees based on a variety of factors above. 
+While I am aware that there are many studies that have gone ahead and studied similar topics, 
+I believe that a fresh perspective from new eyes could be beneficial to the study. 
+Furthermore, I believe that an approach from a Bayesian perspective could 
+help us gain additional insight into the topic.
 
-* `/Code` Each script should do something specific (like tidyverse functions), have a descriptive name, and include number prefixes if they are meant to be run in a certain order (e.g., `01_import_data.R`, `02_clean_data.R`).
-* `/Data` While all data live here, only data that are small and can be shared publicly will be pushed.
-* `/Figures` Figures live here, including images (saved as PNG files) and data referenced or used for tables, for use in the `README` and report.
-* `/Report` The report, without any PDF knits.
-* `README` This page, with any other organization details to make it easy to navigate your repository.
-
-### Not Pushed to GitHub
-
-* `/Output` Output from model runs. These files tend to be too large. They are also something each user can create on their own.
+Furthermore, most of these studies have likely been completed to help a company or firm 
+determine how much they should offer an employee, 
+but I intend to approach this project from the perspective of a prospective employee
+who intends to negotiate a starting salary with an employer.
 
