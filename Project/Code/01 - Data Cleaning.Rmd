@@ -1,0 +1,41 @@
+---
+title: "Reading Data"
+output: github_document
+---
+
+
+```{r setup}
+library(ipumsr)
+library(R.utils)
+library(tidyverse)
+```
+
+# Extracting file
+
+```{r}
+gunzip("nhis_00002.dat.gz")
+```
+
+NOTE: To load data, you must download both the extract's data and the DDI
+and also set the working directory to the folder with these files (or change the path below).
+
+```{r}
+if (!require("ipumsr")) stop("Reading IPUMS data into R requires the ipumsr package. It can be installed using the following command: install.packages('ipumsr')")
+
+ddi <- read_ipums_ddi("nhis_00002.xml", lower_vars = TRUE)
+data <- read_ipums_micro(ddi)
+
+```
+The Data is included only from the year 2010 on. I may go back and change this if I find we need more data.
+```{r}
+personal <- data %>% 
+  select(year, age, sex, racea, occ, usualft, incfam07on, gotwage, height, weight) %>% 
+  na_if(0) %>% 
+  drop_na(height, weight) %>% 
+  summarize(
+    ages = count(age),
+    genders = count(sex),
+    races = count(racea),
+  )
+```
+
