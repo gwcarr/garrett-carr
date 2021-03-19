@@ -1,0 +1,118 @@
+---
+title: "Statistical Rethinking: Chapter 8"
+output: 
+  github_document:
+    pandoc_args: --webtex
+---
+
+## EDA
+
+Using regularizing priors ("regular priors"), we used in the earlier chapters 
+for the frogs data set
+### Single level model
+
+$$
+\begin{align*}
+
+S_i &\sim \text {Binomial}({\it N_i}, {\it p_i})
+\\
+\text {logit}({\it p_i}) &= \alpha_{{\small \text{TANK}[i]}} 
+\\
+{\it \alpha_j} &\sim \text {Normal}(0, 1.5) \quad \text { for } {\it j} = (1, 48)
+
+\end{align*}
+$$
+And again in code:
+```{r Single Level Model, echo=TRUE}
+library(rethinking)
+data(reedfrogs)
+frogs <- reedfrogs
+# make the tank cluster variable
+frogs$tank <- 1:nrow(frogs)
+
+dat <- list(
+  S = frogs$surv,
+  N = frogs$density,
+  tank = frogs$tank
+)
+
+# approximate posterior
+m13.1 <- ulam(
+  alist(
+    S ~ dbinom(N, p),
+    logit(p) <- a[tank],
+    a[tank] ~ dnorm(0, 1.5)
+  ), data = dat, chains = 3, log_lik = TRUE, cmdstan = TRUE
+)
+
+# inspect posterior
+precis(m13.1, depth = 2)
+```
+ 
+### Multilevel Model
+
+$$
+\begin{align*}
+
+S_i &\sim \text {Binomial}({\it N_i}, {\it p_i})
+\\
+\text {logit}({\it p_i}) &= \alpha_{{\small \text{TANK}[i]}} 
+\\
+{\it \alpha_j} &\sim \text {Normal}(\color{blue}{\bar{\alpha}}, \color{blue}{\sigma}) 
+\\
+\color{blue}{\bar{\alpha}} &\color{blue}{\sim} \color{blue}{\text{Normal}(0, 1.5)}
+\\
+\color{blue}{\sigma} &\color{blue}{\sim} \color{blue}{\text{Exponential}(1)}
+\end{align*}
+$$
+We used an adaptive prior for $\alpha_\it{j}$, and set average tank prior as $\bar{\alpha}$, $\sigma$ being the standard deviations of tanks.
+
+Essentially, there are now *two* levels to our model.
+
+Here is the code:
+```{r Multilevel Model}
+m13.2 <- ulam(
+  alist(
+    S ~ dbinom(N, p),
+    logit(p) <- a[tank],
+    a[tank] ~ dnorm(a_bar, sigma),
+    a_bar ~ dnorm(0, 1.5),
+    sigma ~ dexp(1)
+  ), data = dat, chains = 3, log_lik = TRUE, cmdstan = TRUE
+)
+
+# We compare the two models
+compare(m13.1, m13.2)
+
+# checking sigma
+precis(m13.2)
+```
+The second model was much quicker. Note that sigma is the regularizing prior that was learned from the data.
+
+```{r}
+# Extract Stan samples
+post <- extract.samples(m13.2)
+
+# compute mean intercept for each tank
+# also transform to probability with logistic
+frogs$propsurv.est <- logistic(apply(post$a, 2, mean))
+
+# display raw proportions surviving in each tank
+plot(frogs$propsurv, ylim = c(0, 1), pch = 16, xaxt = "n",
+     xlab = "tank", ylab = "proportion survival", col = rangi2)
+axis(1, at = c(1,16,32,48), labels = c(1,16,32,48))
+
+# Overlay posterior means
+points(frogs$propsurv.est)
+
+# mark posterior mean probability across tanks
+abline(h = mean(inv_logit(post$a_bar)), lty = 2)
+
+# draw vertical dividers between tank densities
+abline(v = 16.5, lwd = 0.5)
+abline(v = 32.5, lwd = 0.5)
+text(8, 0, "small tanks")
+text(16+8, 0, "medium tanks")
+text(32+8, 0, "large tanks")
+```
+

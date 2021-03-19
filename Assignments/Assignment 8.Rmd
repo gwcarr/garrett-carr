@@ -1,0 +1,31 @@
+---
+title: "Assignment 2"
+output: 
+  github_document:
+    pandoc_args: --webtex
+---
+
+## Question 1
+
+Revisit the Reed frog survival data, data(reedfrogs), and add the predation
+and size treatment variables to the varying intercepts model. Consider models with
+either predictor alone, both predictors, as well as a model including their interaction.
+What do you infer about the causal influence of these predictor variables? Also focus
+on the inferred variation across tanks (the σ across tanks). Explain why it changes
+as it does across models with different predictors included.
+
+```{r setup}
+library(tidyverse)
+library(rethinking)
+library(cmdstanr)
+```
+
+```{r Frog-Data}
+data("reedfrogs")
+
+frogs <- as_tibble(reedfrogs)
+
+
+
+```
+
