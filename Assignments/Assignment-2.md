@@ -136,6 +136,7 @@ new_indiv <- tibble(
   person = c("person1", "person2", "person3", "person4"),
   weight = c(45, 40, 65, 31)
 )
+
 # we simulate the possible predicted heights from each person
 heights_predicted <- sim(model, data = list(weight = new_indiv$weight)) %>% 
   as_tibble() %>% 
@@ -144,16 +145,6 @@ heights_predicted <- sim(model, data = list(weight = new_indiv$weight)) %>%
     "person2" = V2,
     "person3" = V3,
     "person4" = V4
-  ) %>% ## FIXME Display table in a format that's easier to understand
-  summarise(
-    "p1mean" = mean(person1),
-    "p2mean" = mean(person2),
-    "p3mean" = mean(person3),
-    "p4mean" = mean(person4),
-    "p1prob" = PI(person1),
-    "p2prob" = PI(person2),
-    "p3prob" = PI(person3),
-    "p4prob" = PI(person4)
   )
 ```
 
@@ -163,14 +154,46 @@ heights_predicted <- sim(model, data = list(weight = new_indiv$weight)) %>%
     ## Call `lifecycle::last_warnings()` to see where this warning was generated.
 
 ``` r
-heights_predicted
+height_pred <- heights_predicted %>% 
+  summarise(
+    "One" = mean(person1),
+    "Two" = mean(person2),
+    "Three" = mean(person3),
+    "Four" = mean(person4),
+  ) %>% 
+  pivot_longer(
+    cols = One:Four,
+    names_to = "individual",
+    values_to = "expected_height"
+  ) %>% 
+  transmute(
+    individual = individual,
+    weight = c(45, 40, 65, 31),
+    expected_height = expected_height,
+    "interval_low" = c(
+      PI(heights_predicted$person1)[1], 
+      PI(heights_predicted$person2)[1], 
+      PI(heights_predicted$person3)[1], 
+      PI(heights_predicted$person4)[1]
+    ),
+    "interval_high" = c(
+      PI(heights_predicted$person1)[2], 
+      PI(heights_predicted$person2)[2], 
+      PI(heights_predicted$person3)[2], 
+      PI(heights_predicted$person4)[2]
+    ),
+  )
+
+height_pred
 ```
 
-    ## # A tibble: 2 x 8
-    ##   p1mean p2mean p3mean p4mean p1prob p2prob p3prob p4prob
-    ##    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1   155.   150.   173.   142.   146.   142.   164.   134.
-    ## 2   155.   150.   173.   142.   162.   158.   181.   151.
+    ## # A tibble: 4 x 5
+    ##   individual weight expected_height interval_low interval_high
+    ##   <chr>       <dbl>           <dbl>        <dbl>         <dbl>
+    ## 1 One            45            155.         147.          162.
+    ## 2 Two            40            150.         142.          158.
+    ## 3 Three          65            173.         165.          181.
+    ## 4 Four           31            142.         134.          150.
 
 ## Question 2
 
@@ -188,9 +211,10 @@ above.
 # Prior Predictive simulation:
 # Reload data to include under age 18 persons
 data(Howell1)
-data.log <- as_tibble(Howell1)
-
-data.log$weight <- log(data.log$weight)
+data.log <- as_tibble(Howell1) %>% 
+  mutate(
+    weight = log(weight)
+  )
 
 avg_weight <- mean(data.log$weight)
 
@@ -201,9 +225,10 @@ model2 <- quap( # Fits the model
   data = data.log,
   alist( # Model Definition
     height ~ dnorm(mu, sigma),                   
-    mu <-  beta0 + exp(log_b) * (weight - avg_weight), 
+    mu <-  beta0 + log_b * (weight - avg_weight),
+    # Prior defined below:
     beta0 ~ dnorm(178, 20),                      
-    log_b ~ dnorm(0, 1),                        
+    log_b ~ dlnorm(meanlog = 0, sdlog = 1),                        
     sigma ~ dunif(0, 50)                         
   )
 )
@@ -233,9 +258,9 @@ Question 3
 > Plot the prior predictive distribution for the polynomial regression
 > model in Chapter 4. You can modify the the code that plots the linear
 > regression prior predictive distribution. 20 or 30 parabolas from the
-> prior should suffice to show where the prior &gt; probability resides.
-> Can you modify the prior distributions of α, β1, and β2 so that the
-> prior predictions stay within the biologically reasonable outcome
-> space? That is to say: Do not try to fit the data by hand. But do try
-> to keep the curves consistent with what you know about height and
-> weight, before seeing these exact data.
+> prior should suffice to show where the prior probability resides. Can
+> you modify the prior distributions of α, β1, and β2 so that the prior
+> predictions stay within the biologically reasonable outcome space?
+> That is to say: Do not try to fit the data by hand. But do try to keep
+> the curves consistent with what you know about height and weight,
+> before seeing these exact data.

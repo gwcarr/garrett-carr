@@ -37,3 +37,16 @@ prior <- tibble(
 # We take a look at our prior predictive distribution
 dens(prior$height)
 ```
+
+### Notes from other Sources
+Looking at the text "R for data science", I found the following useful functions.
+
+```{r}
+library(modelr)
+
+# Produces an evenly space grid for where the data lies (helpful for grid approximation)
+# data_grid(df)
+
+
+```
+
