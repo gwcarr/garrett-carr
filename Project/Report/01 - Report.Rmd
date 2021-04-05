@@ -1,0 +1,121 @@
+---
+title: "Data Cleaning - New"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(fig.align='center')
+```
+
+## New Project
+
+I am working on a project created from a kaggle data set found here: https://www.kaggle.com/teertha/personal-loan-modeling
+
+I switched to this new project for a number of reasons, including:
+
+* Format is easier to work with
+  * No need to download additional packages, download from their website, etc.
+* Simpler to model.
+  * No topcoded values
+  * Raw data
+* Topic is more interesting.
+* Applies to marketing better
+* Response is a logit model
+
+## Data Story
+
+The data set is from Thera Bank customers, including 
+demographic information, 
+their relationship with the bank, and 
+their response to the last personal loan campaign. 
+The dataset was generated in a response to a successful campaign by the bank
+to increase sign ups for their personal loan product, with a conversion rate of 9%.
+
+Our question is this: what factors make a consumer more likely to sign up for a personal loan?
+How much do each of these factors affect the final outcome?
+
+With our response variable set as whether a customer signed up for a personal loan,
+the following variables are available in data set:
+
+Variable          | Description
+------------------|------------------------------------------------------------
+ID                | Unique identifier for each person; Aribtrary numbers
+Age               | Customer's age in completed years
+Experience        | Number of years of professional experience
+Income            | Annual income ($000)
+ZIP Code          | Home Address zip code
+Family            | Family size of customer
+CCAvg             | Avg. spending on credit cards per month ($000)
+Education         | Education Level. 1: Undergrad; 2: Graduate; 3: Advanced/Professional
+Mortgage          | Value of house mortgage if any. ($000)
+Personal Loan     | Did this customer accept the personal loan offered in the last campaign? (response variable)
+Securities Account| Does the customer have a securities account with the bank?
+CD Account        | Does the customer have a certificate of deposit (CD) account with the bank?
+Online            | Does the customer use internet banking facilities?
+CreditCard        | Does the customer use a credit card issued by this Bank?
+
+There are no empty values in the data set.  Lets take a look at the data.
+
+## Data Exploration
+
+```{r Reading Data, echo=FALSE}
+     
+data
+summary(data)
+```
+
+The data set looks good.  Lets take a closer look at our distributions. 
+I'm curious about the customer demographics.
+
+```{r Customer Demographics}
+ggplot(data = data) +
+  geom_histogram(aes(x = Age, color = Education), binwidth = 1) + 
+  labs(title = "Customer Demographics", y = "Count") +
+  theme_bw()
+summary(data$Age)
+```
+
+It appears we have a good spread of ages and education levels, 
+with a minimum age of 23, 
+and a max of 67. 
+It also appears we have a roughly proportional number of different Education levels 
+across our data set.  
+This will make for some good predictions.
+
+Lets look at the spread of income next.
+
+```{r Income}
+ggplot(data, mapping = aes(x = Income)) +
+  geom_density() +
+  labs(x = "Income per Year (in Thousands $)", y = NULL, title = "Customer Income")
+summary(data$Income)
+```
+It appears our incomes are heavily right skewed, which is hardly surprising. 
+Taking a look at mortgage next:
+
+```{r Mortgage}
+ggplot(data) +
+  geom_density(aes(x = Mortgage)) +
+  xlim(c(1, 600)) # Removed large number of zeros from displaying
+```
+Please note, I removed a large number of values that were zero. 
+Also extremely right skewed, with a majority having paid off their mortgage. 
+It may be this data set is only counting mortgages with the bank, 
+so maybe it's not the most reliable predictor.
+
+```{r Family Stats}
+ggplot(data, mapping = aes(y = Income)) +
+  geom_boxplot(aes(x = Family))
+
+ggplot(data, mapping = aes(x = Income)) +
+  geom_histogram(fill = "white", color = "black", bins = 100) +
+  facet_grid(Family ~ .) +
+  labs(title = "Income Distribution vs. Family Size", y = NULL) +
+  theme_bw()
+```
+
+It appears income is strangely distributed. Accounts holders with family sizes of
+1 and 2 have a much wider range in income levels. 
+This may be due to couples with double income, so we will have to account for this effect later.
+
