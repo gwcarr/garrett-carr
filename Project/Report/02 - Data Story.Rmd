@@ -47,12 +47,12 @@ ID is just a simple row index, so that will obviously be excluded.
 library(dagitty)
 library(rethinking)
 library(cmdstanr)
-library(readr)
+library(tidyverse)
 data <-
   read_csv(
     './Project/Data/Bank_Personal_Loan_Modelling.csv',
     trim_ws = TRUE,
-    col_types = "dddddfdfdlllll"
+    col_types = "cddddddddddddd"
   )
 ```
 ### Creating The Model
@@ -68,9 +68,10 @@ beta_ccavg ~ normal(0, 0.01)         # Effect of average credit card balance
 ```
 
 ### Running the Model
-Just using the intial model, to see what the output looks like
+Just using the initial model, to see what the output looks like. Binomial regression
+with a logit link function for the liklihood of a person getting a loan.
 
-```{r Running the Initial Model}
+```{r Running the Initial Model, cache=TRUE}
 # Create data list
 loan_list <- list(
   loan = data$`Personal Loan`,
@@ -83,7 +84,7 @@ loan_list <- list(
 fit01 <- ulam(
   alist(
     loan ~ dbinom(1, p),
-    logit(p) <- beta_age * age + beta_inc * income + beta_cc * ccavg,
+    logit(p) <-  beta_age * age + beta_inc * income + beta_cc * ccavg,
     beta_age ~ dnorm(0, 0.5),
     beta_inc ~ dnorm(0, 1),
     beta_cc ~ dnorm(0, 1.5)
@@ -97,5 +98,75 @@ fit01 <- ulam(
 ```
 Stan didn't like that very much, probably because the priors are trash, and not very informative.
 
+I will try again to pick initial priors that fit better with the data.
+It's not worth checking the model, so we are going to iterate again.
+
+### Rethinking the Model
+
+The previous model had too many divergent transitions, so we are going to be more
+thoughtful about this model.
+
+Let's assume there is a default value of a conversion rate of 5%, 
+just based on my experience in keyword advertising, that would be a good rate.
+So, we add a `beta0 ~ Normal(mu = 0.05, sigma = 0.01)`
+
+I also wanted to revisit the DAG for this model to see 
+if I should include any other variables. 
+
+```{r DAG 1}
+dag01 <- dagitty("dag {
+                 A -> L
+                 I -> L
+                 A -> I
+                 }")
+
+coordinates(dag01) <- list(x = c(A = 0, L = 1, I = 2), y = c(A = 0, L = 1, I = 0))
+plot(dag01)
+```
+We have to assume that overall income has *some* influence on wage. However,
+this model is complicated by the fact that the reported income values are 
+overall household income,
+some of which are most definitely double income households. 
+
+So, drawing our DAG again, this time including the variables `Family` and `CCAvg`
+as `F` and `C`, respectively.
+
+```{r DAG 2}
+dag02 <- dagitty("dag {
+                 A -> L
+                 I -> L
+                 A -> I
+                 A -> F
+                 I -> C
+                 F -> I
+                 C -> L
+                 }")
+
+coordinates(dag01) <- list(x = c(A = 0, L = 1, I = 2), y = c(A = 0, L = 1, I = 0))
+plot(dag01)
+```
+
+
+
+I also want to measure the difference of the model with and without the `CCAvg` variable 
+to see if our model makes some better predictions.
+
+
+```{r}
+fit02 <- ulam(
+  alist(
+    loan ~ dbinom(1, p),
+    logit(p) <- beta0 + beta_age * age + beta_inc * income,
+    beta0 ~ dnorm(0.05, 0.01),
+    beta_age ~ dnorm(0, 0.5),
+    beta_inc ~ dnorm(0, 1)
+  ),
+  data = loan_list,
+  log_lik = TRUE,
+  chains = 4,
+  cores = 4,
+  cmdstan = TRUE
+)
+```
 
 
