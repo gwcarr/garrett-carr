@@ -128,22 +128,21 @@ this model is complicated by the fact that the reported income values are
 overall household income,
 some of which are most definitely double income households. 
 
-So, drawing our DAG again, this time including the variables `Family` and `CCAvg`
-as `F` and `C`, respectively.
+So, drawing our DAG again, this time including the variables `Family` and `CCAvg`.
 
 ```{r DAG 2}
 dag02 <- dagitty("dag {
-                 A -> L
-                 I -> L
-                 A -> I
-                 A -> F
-                 I -> C
-                 F -> I
-                 C -> L
+                 Age -> Loan
+                 Income -> Loan
+                 Age -> Income
+                 Age -> Family
+                 Income -> Credit
+                 Family -> Income
+                 Credit -> Loan
                  }")
 
-coordinates(dag01) <- list(x = c(A = 0, L = 1, I = 2), y = c(A = 0, L = 1, I = 0))
-plot(dag01)
+coordinates(dag02) <- list(x = c(A = 2, L = 2, I = 1, C = 0, F = 0 ), y = c(A = 0, L = 2, I = 1, C = 2, F = 0))
+plot(dag02)
 ```
 
 

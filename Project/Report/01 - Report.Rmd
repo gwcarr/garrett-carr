@@ -135,9 +135,16 @@ zip_data <- data %>%
 
 zip_data
 tab_summary <- summary(zip_data)
-tab_summary[,2]
-tab_summary %>% str_replace_all(pattern = "[\\D]+:", replacement = " ") %>% 
-  knitr::kable(padding = 0, row.names = FALSE)
+tbl <- tab_summary %>% 
+  knitr::kable(padding = 1 ) %>%
+  str_replace_all(pattern = "(?<replace>((?<=\\|)((\\w+).?( +)?(\\w+.?)?( +)?:( +)?)))", replacement = " ") %>% 
+  str_split(pattern = "( +)?\\|( +)?")
+
+tbl <- tbl %>%  as_tibble(.name_repair = 'minimal')
+tbl[,1] <- NULL
+tbl[,1] <- NULL
+names(tbl) <- c("Min", "1st Q", "Median", "Mean", "3rd Q", "Max", "NA's")
+tbl %>% knitr::kable(padding = 1, caption = "Data variation by Zip Code")
 # 
 # 
 # plot1 <- ggplot(zip_data, mapping = aes(x = Age_mean, y = Age_sd)) +

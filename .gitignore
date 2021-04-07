@@ -3,9 +3,8 @@
 .Rhistory
 .RData
 .Ruserdata
-
 # Miscellaneous
 .DS_Store
-
 # Folders
 Private/*
+*cache
