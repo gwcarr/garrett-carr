@@ -139,54 +139,6 @@ fit01 <- ulam(
 
     ## Chain 2   Stan can't start sampling from this initial value.
 
-    ## Chain 2 Rejecting initial value:
-
-    ## Chain 2   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 2   Stan can't start sampling from this initial value.
-
-    ## Chain 2 Rejecting initial value:
-
-    ## Chain 2   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 2   Stan can't start sampling from this initial value.
-
-    ## Chain 2 Rejecting initial value:
-
-    ## Chain 2   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 2   Stan can't start sampling from this initial value.
-
-    ## Chain 3 Rejecting initial value:
-
-    ## Chain 3   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 3   Stan can't start sampling from this initial value.
-
-    ## Chain 4 Rejecting initial value:
-
-    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 4   Stan can't start sampling from this initial value.
-
-    ## Chain 4 Rejecting initial value:
-
-    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 4   Stan can't start sampling from this initial value.
-
-    ## Chain 4 Rejecting initial value:
-
-    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 4   Stan can't start sampling from this initial value.
-
-    ## Chain 4 Rejecting initial value:
-
-    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 4   Stan can't start sampling from this initial value.
-
     ## Chain 4 Rejecting initial value:
 
     ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
@@ -196,58 +148,66 @@ fit01 <- ulam(
     ## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
     ## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
     ## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
-    ## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-    ## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-    ## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
     ## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-    ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+    ## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+    ## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+    ## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
     ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-    ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-    ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-    ## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+    ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
     ## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+    ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+    ## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+    ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
     ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-    ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-    ## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
     ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+    ## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
     ## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-    ## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
-    ## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+    ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+    ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
     ## Chain 4 Iteration: 500 / 1000 [ 50%]  (Warmup) 
     ## Chain 4 Iteration: 501 / 1000 [ 50%]  (Sampling) 
-    ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
     ## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
     ## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
-    ## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
     ## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
-    ## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
     ## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
-    ## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
     ## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+    ## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
     ## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
-    ## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-    ## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
     ## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
-    ## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-    ## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-    ## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+    ## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
     ## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-    ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 3 finished in 147.1 seconds.
-    ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-    ## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+    ## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+    ## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+    ## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+    ## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
     ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-    ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 1 finished in 160.2 seconds.
+    ## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+    ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
     ## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
     ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 4 finished in 164.2 seconds.
+    ## Chain 4 finished in 107.3 seconds.
+    ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
+    ## Chain 1 finished in 112.1 seconds.
     ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 2 finished in 167.3 seconds.
+    ## Chain 2 finished in 115.6 seconds.
+    ## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+    ## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+    ## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+    ## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+    ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
+    ## Chain 3 finished in 192.7 seconds.
     ## 
     ## All 4 chains finished successfully.
-    ## Mean chain execution time: 159.7 seconds.
-    ## Total execution time: 168.6 seconds.
+    ## Mean chain execution time: 131.9 seconds.
+    ## Total execution time: 193.7 seconds.
+
+    ## 
+    ## Warning: 1429 of 2000 (71.0%) transitions ended with a divergence.
+    ## This may indicate insufficient exploration of the posterior distribution.
+    ## Possible remedies include: 
+    ##   * Increasing adapt_delta closer to 1 (default is 0.8) 
+    ##   * Reparameterizing the model (e.g. using a non-centered parameterization)
+    ##   * Using informative or weakly informative prior distributions
 
 Stan didn’t like that very much, probably because the priors are trash,
 and not very informative.
@@ -278,7 +238,7 @@ coordinates(dag01) <- list(x = c(Age = 0, Loan = 1, Income = 2), y = c(Age = 0, 
 plot(dag01)
 ```
 
-![](Data-Story_files/figure-gfm/DAG%201-1.png)<!-- -->
+![](Project/Figures/DAG%201-1.png)<!-- -->
 
 We have to assume that overall income has *some* influence on wage.
 However, this model is complicated by the fact that the reported income
@@ -304,7 +264,7 @@ coordinates(dag02) <- list(x = c(Age = 2, Loan = 2, Income = 1, Credit = 0, Fami
 plot(dag02)
 ```
 
-![](Data-Story_files/figure-gfm/DAG%202-1.png)<!-- -->
+![](Project/Figures/DAG%202-1.png)<!-- -->
 
 I also want to measure the difference of the model with and without the
 `CCAvg` variable to see if our model makes some better predictions.
@@ -329,12 +289,8 @@ fit02 <- ulam(
     ## Compiling Stan program...
 
     ## Running MCMC with 4 parallel chains, with 1 thread(s) per chain...
-
-    ## Chain 1 Rejecting initial value:
-
-    ## Chain 1   Log probability evaluates to log(0), i.e. negative infinity.
-
-    ## Chain 1   Stan can't start sampling from this initial value.
+    ## 
+    ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup)
 
     ## Chain 2 Rejecting initial value:
 
@@ -342,88 +298,86 @@ fit02 <- ulam(
 
     ## Chain 2   Stan can't start sampling from this initial value.
 
-    ## Chain 2 Rejecting initial value:
+    ## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup)
 
-    ## Chain 2   Log probability evaluates to log(0), i.e. negative infinity.
+    ## Chain 3 Rejecting initial value:
 
-    ## Chain 2   Stan can't start sampling from this initial value.
+    ## Chain 3   Log probability evaluates to log(0), i.e. negative infinity.
 
-    ## Chain 2 Rejecting initial value:
+    ## Chain 3   Stan can't start sampling from this initial value.
 
-    ## Chain 2   Log probability evaluates to log(0), i.e. negative infinity.
+    ## Chain 4 Rejecting initial value:
 
-    ## Chain 2   Stan can't start sampling from this initial value.
+    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
 
-    ## Chain 2 Rejecting initial value:
+    ## Chain 4   Stan can't start sampling from this initial value.
 
-    ## Chain 2   Log probability evaluates to log(0), i.e. negative infinity.
+    ## Chain 4 Rejecting initial value:
 
-    ## Chain 2   Stan can't start sampling from this initial value.
+    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
 
-    ## Chain 1 Iteration:   1 / 1000 [  0%]  (Warmup) 
-    ## Chain 2 Iteration:   1 / 1000 [  0%]  (Warmup) 
+    ## Chain 4   Stan can't start sampling from this initial value.
+
+    ## Chain 4 Rejecting initial value:
+
+    ## Chain 4   Log probability evaluates to log(0), i.e. negative infinity.
+
+    ## Chain 4   Stan can't start sampling from this initial value.
+
     ## Chain 3 Iteration:   1 / 1000 [  0%]  (Warmup) 
     ## Chain 4 Iteration:   1 / 1000 [  0%]  (Warmup) 
-    ## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-    ## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
     ## Chain 4 Iteration: 100 / 1000 [ 10%]  (Warmup) 
+    ## Chain 1 Iteration: 100 / 1000 [ 10%]  (Warmup) 
     ## Chain 3 Iteration: 100 / 1000 [ 10%]  (Warmup) 
-    ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-    ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-    ## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+    ## Chain 2 Iteration: 100 / 1000 [ 10%]  (Warmup) 
     ## Chain 4 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-    ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
-    ## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-    ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
     ## Chain 4 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-    ## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
-    ## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
-    ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+    ## Chain 3 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+    ## Chain 2 Iteration: 200 / 1000 [ 20%]  (Warmup) 
+    ## Chain 1 Iteration: 200 / 1000 [ 20%]  (Warmup) 
     ## Chain 4 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+    ## Chain 2 Iteration: 300 / 1000 [ 30%]  (Warmup) 
+    ## Chain 1 Iteration: 300 / 1000 [ 30%]  (Warmup) 
     ## Chain 3 Iteration: 300 / 1000 [ 30%]  (Warmup) 
-    ## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
     ## Chain 4 Iteration: 500 / 1000 [ 50%]  (Warmup) 
     ## Chain 4 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+    ## Chain 2 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+    ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+    ## Chain 1 Iteration: 400 / 1000 [ 40%]  (Warmup) 
+    ## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
     ## Chain 2 Iteration: 500 / 1000 [ 50%]  (Warmup) 
     ## Chain 2 Iteration: 501 / 1000 [ 50%]  (Sampling) 
-    ## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
-    ## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
-    ## Chain 4 Iteration: 600 / 1000 [ 60%]  (Sampling) 
-    ## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-    ## Chain 3 Iteration: 400 / 1000 [ 40%]  (Warmup) 
-    ## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
-    ## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
-    ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-    ## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-    ## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
-    ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 1 finished in 106.8 seconds.
-    ## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-    ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
-    ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 2 finished in 118.0 seconds.
-    ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 4 finished in 122.2 seconds.
     ## Chain 3 Iteration: 500 / 1000 [ 50%]  (Warmup) 
     ## Chain 3 Iteration: 501 / 1000 [ 50%]  (Sampling) 
+    ## Chain 4 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+    ## Chain 1 Iteration: 500 / 1000 [ 50%]  (Warmup) 
+    ## Chain 1 Iteration: 501 / 1000 [ 50%]  (Sampling) 
     ## Chain 3 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+    ## Chain 2 Iteration: 600 / 1000 [ 60%]  (Sampling) 
+    ## Chain 4 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+    ## Chain 1 Iteration: 600 / 1000 [ 60%]  (Sampling) 
     ## Chain 3 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+    ## Chain 1 Iteration: 700 / 1000 [ 70%]  (Sampling) 
+    ## Chain 4 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+    ## Chain 2 Iteration: 700 / 1000 [ 70%]  (Sampling) 
     ## Chain 3 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+    ## Chain 1 Iteration: 800 / 1000 [ 80%]  (Sampling) 
+    ## Chain 4 Iteration: 1000 / 1000 [100%]  (Sampling) 
+    ## Chain 4 finished in 84.6 seconds.
+    ## Chain 2 Iteration: 800 / 1000 [ 80%]  (Sampling) 
     ## Chain 3 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+    ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
+    ## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
     ## Chain 3 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 3 finished in 317.6 seconds.
+    ## Chain 3 finished in 96.3 seconds.
+    ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
+    ## Chain 1 finished in 98.5 seconds.
+    ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
+    ## Chain 2 finished in 100.3 seconds.
     ## 
     ## All 4 chains finished successfully.
-    ## Mean chain execution time: 166.2 seconds.
-    ## Total execution time: 318.9 seconds.
-
-    ## 
-    ## Warning: 467 of 2000 (23.0%) transitions ended with a divergence.
-    ## This may indicate insufficient exploration of the posterior distribution.
-    ## Possible remedies include: 
-    ##   * Increasing adapt_delta closer to 1 (default is 0.8) 
-    ##   * Reparameterizing the model (e.g. using a non-centered parameterization)
-    ##   * Using informative or weakly informative prior distributions
+    ## Mean chain execution time: 94.9 seconds.
+    ## Total execution time: 101.6 seconds.
 
 I think Stan liked this model much better. Let’s take a look at what we
 have here:
