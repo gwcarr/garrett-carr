@@ -57,7 +57,7 @@ knitr::opts_chunk$set(
 ```{r Read in Data, echo=FALSE}
 data <-
   read_csv(
-    './Project/Data/Bank_Personal_Loan_Modelling.csv',
+    'Bank_Personal_Loan_Modelling.csv',
     trim_ws = TRUE,
     col_types = "cddddddddlllll"
   ) 
@@ -65,7 +65,7 @@ data <-
 
 I will initially set the priors as flat. We will start with a small number of predictors.
 
-```{r Intial Modle Priors, eval=FALSE, echo=FALSE}
+```{r Intial Model Priors, eval=FALSE, echo=FALSE}
 loan ~ binomial(1, p) # Binomial distribution of likelihood to accept the personal loan
 logit(p) = beta_age  + beta_income + beta_ccavg  # logit model for acceptance of loan likelihood
 beta_age ~ normal(0, 0.01 )          # Effect of Age on loan acceptance 

@@ -62,7 +62,7 @@ There are no empty values in the data set.  Lets take a look at the data.
 ```{r Reading Data, echo=FALSE}
 data <-
   read_csv(
-    './Project/Data/Bank_Personal_Loan_Modelling.csv',
+    'Bank_Personal_Loan_Modelling.csv',
     trim_ws = TRUE,
     col_types = "cddddddddlllll"
   )     
