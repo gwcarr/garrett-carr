@@ -5,7 +5,11 @@ output: github_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(
+  fig.path = "../Figures/",
+  fig.align = "center",
+  cache.path = "../Data/"
+)
 ```
 
 ## New Project
@@ -62,7 +66,7 @@ There are no empty values in the data set.  Lets take a look at the data.
 ```{r Reading Data, echo=FALSE}
 data <-
   read_csv(
-    'Bank_Personal_Loan_Modelling.csv',
+    '../Data/Bank_Personal_Loan_Modelling.csv',
     trim_ws = TRUE,
     col_types = "cddddddddlllll"
   )     

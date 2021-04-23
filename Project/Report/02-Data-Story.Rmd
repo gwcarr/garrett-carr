@@ -49,7 +49,9 @@ library(rethinking)
 library(cmdstanr)
 library(tidyverse)
 knitr::opts_chunk$set(
-  fig.path = "Project/Figures/"
+  fig.path = "../Figures/",
+  fig.align = "center",
+  cache.path = "../Data/"
 )
 ```
 ### Creating The Model
@@ -57,7 +59,7 @@ knitr::opts_chunk$set(
 ```{r Read in Data, echo=FALSE}
 data <-
   read_csv(
-    'Bank_Personal_Loan_Modelling.csv',
+    '../Data/Bank_Personal_Loan_Modelling.csv',
     trim_ws = TRUE,
     col_types = "cddddddddlllll"
   ) 

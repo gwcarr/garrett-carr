@@ -1,0 +1,16 @@
+base
+dagitty
+StanHeaders
+ggplot2
+rstan
+rethinking
+cmdstanr
+tidyverse
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+digest

@@ -10,9 +10,19 @@ So it turns out I was running the model wrong, as I thought I was using standard
 
 
 ```{r setup, include=FALSE}
+library(dagitty)
+library(rethinking)
+library(cmdstanr)
+library(tidyverse)
+knitr::opts_chunk$set(
+  fig.path = "../Figures/",
+  fig.align = "center",
+  cache.path = "../Data/cache/"
+)
+
 data <-
   read_csv(
-    'Bank_Personal_Loan_Modelling.csv',
+    '../Data/Bank_Personal_Loan_Modelling.csv',
     trim_ws = TRUE,
     col_types = "cddddddddlllll"
   )     
@@ -21,19 +31,12 @@ data_numeric <- data %>% select(-ID)
 data$Family <- factor(data$Family, levels = 1:4, labels = c("One", "Two", "Three", "Four"))
 data$Education <- factor(data$Education, levels = 1:3, labels = c("Undergraduate", "Graduate", "Advanced/Professional"))
 
-library(dagitty)
-library(rethinking)
-library(cmdstanr)
-library(tidyverse)
-knitr::opts_chunk$set(
-  fig.path = "Project/Figures/",
-  fig.align = "center"
-)
+
 
 ```
 I want to check out the relationship between some of the variables before I continue again.
 
-```{r}
+```{r Correlation Plot}
 data_numeric %>% cor() %>% corrplot::corrplot(type = "upper")
 ```
 
@@ -44,7 +47,7 @@ ggplot(data, mapping = aes(x = Experience, y = Income)) +
 It generally appears that many undergraduates make more than the other education levels
 at all years of experience. This may be due to the Double Income effect I talked about earlier.
 
-```{r}
+```{r Family 1}
 ggplot(data, mapping = aes(x = Experience, y = Income)) +
   geom_jitter(aes(color = Education, alpha = 0.5)) +
   facet_wrap(~Family)
@@ -55,7 +58,7 @@ Probably due to the double income effect.
 
 Assuming Incomes are highly right skewed definitely seems to be the case for family sizes of 3 and four. I wonder if we use Age rather than experience what patterns will appear.
 
-```{r}
+```{r Family 2}
 ggplot(data, mapping = aes(x = Age, y = Income)) +
   geom_jitter(aes(color = Education, alpha = 0.5)) +
   facet_wrap(~Family)
@@ -63,7 +66,7 @@ ggplot(data, mapping = aes(x = Age, y = Income)) +
 
 As expected, the graphs look strikingly similar. I want to look at these factors in terms of the response.
 
-```{r}
+```{r Family 3}
 ggplot(data, mapping = aes(x = Experience, y = `Personal Loan`)) +
   geom_jitter(aes(color = Education, alpha = Income)) +
   facet_wrap(~Family)
@@ -73,7 +76,7 @@ I find it interesting that people with family sizes of one and two, hardly any u
 
 I wonder about credit card balance..
 
-```{r}
+```{r Family 4}
 ggplot(data, mapping = aes(x = CCAvg, y = `Personal Loan`)) +
   geom_jitter(aes(color = Education, alpha = Income)) +
   facet_wrap(~Family)
@@ -85,7 +88,7 @@ In general, my what we've seen so far seems to imply that for folks with a famil
 
 When we look at families of size 3 or 4, it doesn't seem to matter as much. But for those groups, it seems a low CC balance is an indicator that they probably will not accept a personal loan.
 
-```{r}
+```{r Family 5}
 ggplot(data, mapping = aes(x = CCAvg, y = `Personal Loan`)) +
   geom_jitter(aes(color = Income)) +
   facet_wrap(~Family)
@@ -95,7 +98,7 @@ Individuals with higher incomes and smaller families tend to have higher credit 
 
 Individuals with large families, and low incomes tend to have low credit card balances, and are less likely to accept a personal loan.
 
-```{r}
+```{r CD Account}
 data %>% 
   select(`Personal Loan`, `Securities Account`, `CD Account`, Online, CreditCard) %>% 
   cor() %>% 
@@ -109,7 +112,7 @@ ggplot(data, mapping = aes(y = `Personal Loan`)) +
 Looking at the first graph, we see that generally, if someone had a CD Account with the bank, they also would be more likely get a personal loan from them. There are also more individuals who seemed equally as likely to get a personal loan if they already had a CD account.
 
 
-```{r}
+```{r Mortgage and Family}
 ggplot(data, mapping = aes(x = Age, y = Mortgage)) +
   geom_density_2d() +
   geom_jitter(aes(color = Family))
@@ -117,7 +120,7 @@ ggplot(data, mapping = aes(x = Age, y = Mortgage)) +
 
 There appears to be a group of individuals who have mortgages closer around 100 grand, ranging in age from about 30, to 60 years old.
 
-```{r}
+```{r Mortgage vs Response}
 ggplot(data, mapping = aes(y = `Personal Loan`)) +
   geom_jitter(mapping = aes(x = Mortgage, alpha = Income )) +
   facet_wrap(~`CD Account`)
@@ -126,13 +129,13 @@ People with higher mortgages also tended towards getting a personal loan.
 Also people with higher incomes generally had higher mortgages.
 
 
-```{r}
+```{r Family: Mortgage vs Response}
 ggplot(data) +
   geom_jitter(aes(y = `Personal Loan`, x = Mortgage)) +
   facet_wrap(~Family)
 ```
 
-```{r}
+```{r Correlation by Family size}
 byFamCor <- data_numeric %>% split(.$Family) %>%
   map(select, -Family) %>% 
   map(cor) %>% 
@@ -141,7 +144,7 @@ byFamCor <- data_numeric %>% split(.$Family) %>%
 
 Income and CCAvg seems to generally have a larger effect on personal loan for family sizes of 3 or more.
 
-```{r}
+```{r Family vs CC}
 ggplot(data) +
   geom_jitter(aes(x = Family, y = CCAvg, color = Income))
 ```
@@ -160,7 +163,7 @@ CCAvg
 Income
 ```
 
-```{r Data list}
+```{r New Model: Data list}
 data_list <- list(
   loan = as.numeric(data$`Personal Loan`),
   income = standardize(data$Income),
@@ -171,7 +174,7 @@ data_list <- list(
 
 And now we fit a baseline model, using varying intercepts based on Family size:
 
-```{r}
+```{r fit3, cache=TRUE, dependson="New Model: Data list"}
 fit3 <- ulam(
   alist(
     loan ~ dbinom(1, p),
@@ -194,7 +197,7 @@ precis(fit3)
 
 I bet the effect family size is having on income and ccavg is confounding. Maybe I will try adding an interaction effect.
 
-```{r}
+```{r fit4, cache=TRUE, dependson="New Model: Data list"}
 fit4 <- ulam(
   alist(
     loan ~ dbinom(1, p),
