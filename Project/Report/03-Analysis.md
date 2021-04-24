@@ -363,3 +363,8 @@ Though the Rhat suggests that the variables are well fitted, I don’t
 think we explored the posterior efficiently enough to deal with all the
 data. Part of the data (I would imagine because of the double income
 effect) cannot be adequately explained by the model.
+
+``` r
+# traceplot(fit3)
+# traceplot(fit4)
+```

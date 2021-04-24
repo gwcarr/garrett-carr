@@ -1,5 +1,5 @@
 ---
-title: "Data Story"
+title: "02-Data Story"
 output: github_document
 ---
 
@@ -51,7 +51,7 @@ library(tidyverse)
 knitr::opts_chunk$set(
   fig.path = "../Figures/",
   fig.align = "center",
-  cache.path = "../Data/"
+  cache.path = "../Data/cache/"
 )
 ```
 ### Creating The Model
