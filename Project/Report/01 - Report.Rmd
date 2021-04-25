@@ -5,7 +5,11 @@ output: github_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-knitr::opts_chunk$set(fig.align='center')
+knitr::opts_chunk$set(
+  fig.path = "../Figures/",
+  fig.align = "center",
+  cache.path = "../Data/cache/"
+)
 ```
 
 ## New Project
@@ -60,8 +64,16 @@ There are no empty values in the data set.  Lets take a look at the data.
 ## Data Exploration
 
 ```{r Reading Data, echo=FALSE}
-     
+data <-
+  read_csv(
+    '../Data/Bank_Personal_Loan_Modelling.csv',
+    trim_ws = TRUE,
+    col_types = "cddddddddlllll"
+  )     
 data
+
+data$Family <- factor(data$Family, levels = 1:4, labels = c("One", "Two", "Three", "Four"))
+data$Education <- factor(data$Education, levels = 1:3, labels = c("Undergraduate", "Graduate", "Advanced/Professional"))
 summary(data)
 ```
 
@@ -119,3 +131,86 @@ It appears income is strangely distributed. Accounts holders with family sizes o
 1 and 2 have a much wider range in income levels. 
 This may be due to couples with double income, so we will have to account for this effect later.
 
+```{r Zip Codes}
+# Display mean and sd of Quantitative data, by Zip Code
+zip_data <- data %>%
+  group_by(`ZIP Code`) %>%
+  summarize(across(where(is.double), list(mean = mean, sd = sd)))
+
+zip_data
+tab_summary <- summary(zip_data)
+tbl <- tab_summary %>% 
+  knitr::kable(padding = 1 ) %>%
+  str_replace_all(pattern = "(?<replace>((?<=\\|)((\\w+).?( +)?(\\w+.?)?( +)?:( +)?)))", replacement = " ") %>% 
+  str_split(pattern = "( +)?\\|( +)?")
+
+tbl <- tbl %>%  as_tibble(.name_repair = 'minimal')
+tbl[,1] <- NULL
+tbl[,1] <- NULL
+names(tbl) <- c("Min", "1st Q", "Median", "Mean", "3rd Q", "Max", "NA's")
+tbl %>% knitr::kable(padding = 1, caption = "Data variation by Zip Code")
+# 
+# 
+# plot1 <- ggplot(zip_data, mapping = aes(x = Age_mean, y = Age_sd)) +
+#   geom_point() +
+#   geom_density_2d() +
+#   theme(aspect.ratio = 1) +
+#   labs(title = "Age", x = "Mean", y = "StdDev")
+# 
+# plot2 <- ggplot(zip_data, mapping = aes(x = Experience_mean, y = Experience_sd)) +
+#   geom_point() +
+#   geom_density_2d() +
+#   theme(aspect.ratio = 1) +
+#   labs(title = "Experience", x = "Mean", y = "StdDev")
+# 
+# plot3 <- ggplot(zip_data, mapping = aes(x = Income_mean, y = Income_sd)) +
+#   geom_point() +
+#   geom_density_2d() +
+#   theme(aspect.ratio = 1) +
+#   labs(title = "Income", x = "Mean", y = "StdDev")
+# 
+# plot4 <- ggplot(zip_data, mapping = aes(x = CCAvg_mean, y = CCAvg_sd)) +
+#   geom_point() +
+#   geom_density_2d() +
+#   theme(aspect.ratio = 1) +
+#   labs(title = "CCAvg", x = "Mean", y = "StdDev")
+# 
+# plot5 <- ggplot(zip_data, mapping = aes(x = Mortgage_mean, y = Income_sd)) +
+#   geom_point() +
+#   geom_density_2d() +
+#   theme(aspect.ratio = 1) +
+#   labs(title = "Experience", x = "Mean", y = "StdDev")
+# 
+# print(list(plot1, plot2, plot3, plot4, plot5))
+```
+There is a definite effect here of the zip code, just given the variation.
+
+
+Lets look at the relationships between the variables:
+
+```{r Correlation Plot}
+data <-
+  read_csv(
+    './Project/Data/Bank_Personal_Loan_Modelling.csv',
+    trim_ws = TRUE,
+    col_types = "cddddddddlllll"
+  ) 
+
+corrplot::corrplot(cor(data %>% select(-ID)), type = "upper")
+```
+According to the plot, 
+there may be some collinearity between the `Income` and `CCAvg` variables,
+which makes sense, 
+because *if you make more money*, you are also likely to *spend* more.
+
+Age and Experience are also highly correlated, which also makes sense, 
+because people with more experience almost always tend to be older.
+
+None of the other variables seem to have any concerning multicollinearity.
+
+I also note that the presence of a CD account with the Bank also seems to 
+correlate with accepting the personal loan campaign, 
+so we may be seeing the effects of some brand loyalty here.
+
+Of all the variables, income seems to be among the best predictors 
+for the personal loan acceptance. We'll keep that in mind as we build our model.

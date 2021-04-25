@@ -1,0 +1,136 @@
+---
+title: "04 - New Model"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(dagitty)
+library(rethinking)
+library(cmdstanr)
+knitr::opts_chunk$set(
+  fig.path = "../Figures/",
+  fig.align = "center",
+  cache.path = "../Data/cache/"
+)
+
+data <-
+  read_csv(
+    '../Data/Bank_Personal_Loan_Modelling.csv',
+    trim_ws = TRUE,
+    col_types = "cddddddddlllll"
+  )     
+data_numeric <- data %>% select(-ID)
+
+data$Family <-
+  factor(data$Family,
+         levels = 1:4,
+         labels = c("One", "Two", "Three", "Four"))
+data$Education <-
+  factor(
+    data$Education,
+    levels = 1:3,
+    labels = c("Undergraduate", "Graduate", "Advanced/Professional")
+  )
+
+
+data_list <- list(
+  id = data$ID,
+  loan = as.numeric(data$`Personal Loan`),
+  income = data$Income,
+  mortgage = data$Mortgage,
+  ccavg = data$CCAvg,
+  family = as.numeric(data$Family),
+  education = as.numeric(data$Education),
+  zipcode = data$`ZIP Code`
+)
+```
+
+## Fitting a Model: Multi - level with varying effects
+
+I'm hesitant to standardize the variables, because a lot of the variables are heavily skewed. 
+
+Using logistic regression is difficult, as interpretations are more difficult to understand.
+
+A multi-level model is appropriate here, because of the distribution of the values, 
+and the inherent heterogeneity of the marketing question. For example, many of the values tend towards zero, such as the mortgage value, which neccessitates a zero-inflated to more accurately capture those values in the posterior.
+
+I will also note that in using a logit link with a logistic regression model allows
+for the interaction affects to naturally be present, since the effects of the 
+variables are multiplicative in the logistic model.
+
+```{r New Model 2, eval = FALSE}
+loan ~ Binomial(1, p)
+logit(p) <- a[education] + bf[family] + m_bb * mortgage + beta_i*income + beta_c * ccavg
+beta_i ~ dnorm(mu, sigma), 
+mu ~ dnorm(46, sigma_i),
+sigma_i ~ exponential(1),
+m_bb ~ dbinom(5000, p_m),
+p_m <- pi * phat_mortgage,
+pi ~ gamma(k, theta),
+k ~ dnorm(2, 1.5),
+theta ~ exponential(1),
+phat_mortgage ~ exponential(2),
+beta_c ~ dnorm(mu_c, sigma_c),
+mu_c ~ dnorm(0.5, 0.1),
+sigma_c ~ exponential(1)
+```
+
+```{r fit5, cache=TRUE}
+fit5 <- ulam(
+  alist(
+    loan ~ dbinom(1, p),
+    logit(p) <- a[education] + bf[family] + beta_i * income,
+    beta_i ~ dnorm(mu, sigma),
+    mu ~ dnorm(46, sigma_i),
+    sigma ~ dexp(1),
+    sigma_i ~ dexp(1),
+    a[education] ~ dnorm(1, 0.5),
+    bf[family] ~ dnorm(0.5, 0.5)
+  ),
+  data = data_list,
+  log_lik = TRUE,
+  chains = 2,
+  cores = 4,
+  cmdstan = TRUE
+)
+```
+
+
+```{r}
+load("../Data/cache/fit3")
+
+precis(fit5, depth = 2)
+compare(fit3, fit5)
+pairs(fit3)
+pairs(fit5)
+```
+
+
+```{r, cache = TRUE, eval = FALSE}
+fit6 <- ulam(
+  alist(
+    loan ~ dbinom(1, p),
+    logit(p) <- a[education] + bf[family] + beta_m * mortgage + beta_i * income,
+    beta_i ~ dnorm(mu, sigma),
+    mu ~ dnorm(46, sigma_i),
+    sigma_i ~ dexp(1),
+    p_m <- pi_m * phat_mortgage,
+    beta_m ~ dbinom(20, p_m ),
+    pi_m ~ dnorm(k, theta),
+    k ~ dnorm(2, 1.5),
+    theta ~ dexp(1),
+    phat_mortgage ~ dexp(1),
+    a[education] ~ dnorm(1, 0.5),
+    bf[family] ~ dnorm(0.5, 0.5),
+  ),
+  data = data_list,
+  log_lik = TRUE,
+  chains = 2,
+  cores = 4,
+  cmdstan = TRUE
+)
+```
+
+I'm not sure how to make this run, doing varying effects with logistic regression and regularizing priors is not really clear in the book..
+
