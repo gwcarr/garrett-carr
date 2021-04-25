@@ -241,25 +241,27 @@ fit3 <- ulam(
     ## Chain 1 Iteration: 900 / 1000 [ 90%]  (Sampling) 
     ## Chain 2 Iteration: 900 / 1000 [ 90%]  (Sampling) 
     ## Chain 1 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 1 finished in 41.8 seconds.
+    ## Chain 1 finished in 39.8 seconds.
     ## Chain 2 Iteration: 1000 / 1000 [100%]  (Sampling) 
-    ## Chain 2 finished in 42.7 seconds.
+    ## Chain 2 finished in 41.7 seconds.
     ## 
     ## Both chains finished successfully.
-    ## Mean chain execution time: 42.3 seconds.
-    ## Total execution time: 43.8 seconds.
+    ## Mean chain execution time: 40.8 seconds.
+    ## Total execution time: 44.1 seconds.
 
 ``` r
+save(fit3, file = "../Data/cache/fit3")
+
 precis(fit3)
 ```
 
     ## 4 vector or matrix parameters hidden. Use depth=2 to show them.
 
-    ##                   mean         sd       5.5%      94.5%     n_eff    Rhat4
-    ## beta_ccavg   0.1638479 0.05545264  0.0772514  0.2500959 1010.4524 1.000656
-    ## beta_income  2.1318785 0.09684323  1.9818872  2.2866148  499.7317 1.000724
-    ## alpha_bar   -2.8041780 0.90602937 -3.9998283 -1.1890308  593.7638 1.001373
-    ## sigma        1.7590408 0.76253045  0.9014904  3.1702924  558.9379 1.004269
+    ##                   mean         sd        5.5%      94.5%     n_eff     Rhat4
+    ## beta_ccavg   0.1666791 0.05490106  0.08057461  0.2532414 1027.1827 0.9984902
+    ## beta_income  2.1337968 0.09633687  1.97878835  2.2879065  415.8381 1.0065534
+    ## alpha_bar   -2.9143264 0.85347307 -4.11301315 -1.4514529  678.3155 1.0009436
+    ## sigma        1.7007111 0.71665533  0.84988700  3.0529890  583.8008 1.0055419
 
 I bet the effect family size is having on income and ccavg is
 confounding. Maybe I will try adding an interaction effect.

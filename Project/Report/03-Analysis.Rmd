@@ -191,6 +191,7 @@ fit3 <- ulam(
   cores = 4,
   cmdstan = TRUE
 )
+save(fit3, file = "../Data/cache/fit3")
 
 precis(fit3)
 ```
